@@ -9,9 +9,24 @@ stages:
       size: 44916111
     - path: .\src\data\make_dataset.py
       hash: md5
-      md5: 1a9ab22adba4ba8265adb5796601cf81
-      size: 3250
+      md5: c5ba6363b0c67e75f22a49b1ad2f2cff
+      size: 3172
     params:
       params.yaml:
-        make_data.seed: 3
+        make_data.seed: 42
         make_data.test_split: 0.2
+  tokenization:
+    cmd: python .\src\features\build_features.py .\data\processed\train.csv .\data\processed\test.csv
+    deps:
+    - path: .\data\processed\test.csv
+      hash: md5
+      md5: b3e5ca318aca2f82c5d4fdbfe90885a4
+      size: 5407300
+    - path: .\data\processed\train.csv
+      hash: md5
+      md5: acd3c1a39fd9a2496b0662106bdf91fa
+      size: 21688836
+    - path: .\src\features\build_features.py
+      hash: md5
+      md5: 38c2635519b39ffd1af2d4db52dd7294
+      size: 1463

@@ -24,7 +24,7 @@ nltk.download('wordnet')
 
 # Load datasets
 def load_data(input_file):
-    df =  pd.read_csv(input_file)
+    df =  pd.read_csv(input_file,index_col=0)
     return df
 # Initialize the lemmatizer
 lemmatizer = WordNetLemmatizer()
@@ -70,16 +70,12 @@ def save_data(train, test, output_path):
 def main():
     curr_dir = pathlib.Path(__file__)
     home_dir = curr_dir.parent.parent.parent
-    print(home_dir)
     params_file = home_dir.as_posix() + '/params.yaml'
     params = yaml.safe_load(open(params_file))["make_data"]
 
     input_file = sys.argv[1]
-    print(input_file)
     data_path = home_dir.as_posix() + input_file
-    print(data_path)
     output_path = home_dir.as_posix() + '/data/processed'
-    print(output_path)
     
     data = load_data(data_path)
     pro_data = preprocessing_data(data)
