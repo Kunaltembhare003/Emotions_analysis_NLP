@@ -66,9 +66,15 @@ def model_build( X_train_padded, X_test_padded, y_train, y_test, vocabulary_size
     return model
 
 # Save the model
-def save_model(model, output_path):
-    # save the trained model to the specified output path
-    joblib.dump(model, output_path+'/model.joblib')
+# Save the model
+def save_model(model, architecture_path, weights_path):
+    # Save model architecture to JSON
+    model_architecture = model.to_json()
+    with open(architecture_path+'/architecture.json', 'w') as json_file:
+        json_file.write(model_architecture)
+    # Save model weights to HDF5
+    model.save_weights(weights_path+'/weight.h5')
+
 
 def main():
     curr_dir = pathlib.Path(__file__)
@@ -80,8 +86,10 @@ def main():
     input_file_test = sys.argv[2]
     data_path_train = home_dir.as_posix() + input_file_train
     data_path_test = home_dir.as_posix() + input_file_test
-    output_path = home_dir.as_posix() + '/models'
-    pathlib.Path(output_path).mkdir(parents=True, exist_ok=True)
+    arch_path = home_dir.as_posix() + '/models'
+    pathlib.Path(arch_path).mkdir(parents=True, exist_ok=True)
+    weight_path = home_dir.as_posix() + '/models'
+    pathlib.Path(weight_path).mkdir(parents=True, exist_ok=True)
     token_path = home_dir.as_posix() + '/data/interim'
     tokenizer = load_tokenizer( token_path + '/tokenizer.json')
     X_train, X_test, y_train, y_test= load_and_split_data(data_path_train,
@@ -92,7 +100,7 @@ def main():
     model = model_build( X_train_padded, X_test_padded,
                          y_train, y_test, vocabulary_size)
     
-    save_model(model, output_path)
+    save_model(model, arch_path, weight_path)
 
 if __name__=="__main__":
     main()   
