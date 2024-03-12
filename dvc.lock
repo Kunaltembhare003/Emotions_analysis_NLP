@@ -1,0 +1,17 @@
+schema: '2.0'
+stages:
+  make_dataset:
+    cmd: python .\src\data\make_dataset.py .\data\raw\text.csv
+    deps:
+    - path: .\data\raw\text.csv
+      hash: md5
+      md5: dce8a71d92b66b15b08cb6faac938889
+      size: 44916111
+    - path: .\src\data\make_dataset.py
+      hash: md5
+      md5: 1a9ab22adba4ba8265adb5796601cf81
+      size: 3250
+    params:
+      params.yaml:
+        make_data.seed: 3
+        make_data.test_split: 0.2

@@ -70,16 +70,20 @@ def save_data(train, test, output_path):
 def main():
     curr_dir = pathlib.Path(__file__)
     home_dir = curr_dir.parent.parent.parent
+    print(home_dir)
     params_file = home_dir.as_posix() + '/params.yaml'
-    params = yaml.safe_load(open(params_file))["make_dataset"]
+    params = yaml.safe_load(open(params_file))["make_data"]
 
     input_file = sys.argv[1]
+    print(input_file)
     data_path = home_dir.as_posix() + input_file
-    output_path = home_dir.as_posix() + '/data/processed/'
+    print(data_path)
+    output_path = home_dir.as_posix() + '/data/processed'
+    print(output_path)
     
     data = load_data(data_path)
     pro_data = preprocessing_data(data)
-    train_data, test_data = split_data(data, params['test_split'], params['seed'])
+    train_data, test_data = split_data(pro_data, params['test_split'], params['seed'])
     save_data(train_data, test_data , output_path)
 
 
