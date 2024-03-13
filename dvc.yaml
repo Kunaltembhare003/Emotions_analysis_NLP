@@ -19,3 +19,10 @@ stages:
     - .\src\models\train_model.py
     - .\data\processed\train.csv 
     - .\data\processed\test.csv
+    params:
+    - train_model.GRU_layer 
+    - train_model.dropout 
+    - train_model.snd_layer_unit
+    - train_model.trd_layer_unit
+    - train_model.epochs
+    - train_model.batch_size

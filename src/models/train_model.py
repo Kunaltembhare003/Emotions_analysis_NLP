@@ -40,28 +40,30 @@ def padding_data( tokenizer, X_train, X_test):
     return X_train_padded, X_test_padded, vocabulary_size
 
 # model building
-def model_build( X_train_padded, X_test_padded, y_train, y_test, vocabulary_size):
+def model_build( X_train_padded, X_test_padded, y_train, y_test,
+                 vocabulary_size, GRU_layer, dropout, snd_layer_unit, trd_layer_unit,
+                 epochs,batch_size):
     # Define the model
     model = Sequential()
     # Add an embedding layer with input_dim=1000, output_dim=100, input_length=75
     model.add(Embedding(input_dim=vocabulary_size, output_dim=100))
     # Add a bidirectional GRU layer with 128 units
-    model.add(Bidirectional(GRU(128)))
+    model.add(Bidirectional(GRU(GRU_layer)))
     # Add batch normalization layer
     model.add(BatchNormalization())
     # Add dropout regularization
-    model.add(Dropout(0.5))
+    model.add(Dropout(dropout))
     # Add a dense layer with 64 units and ReLU activation
-    model.add(Dense(64, activation='relu'))
+    model.add(Dense(snd_layer_unit, activation='relu'))
     # Add dropout regularization
-    model.add(Dropout(0.5))
+    model.add(Dropout(dropout))
     # Add the output layer with 6 units for 6 labels and softmax activation
-    model.add(Dense(6, activation='softmax'))
+    model.add(Dense(trd_layer_unit, activation='softmax'))
     # Compile the model
     model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
     # Model Train 
     history = model.fit(X_train_padded, y_train,
-                     epochs=5, batch_size=1500,
+                     epochs=epochs, batch_size=1500,
                        validation_data=(X_test_padded, y_test))
     return model
 
@@ -80,7 +82,7 @@ def main():
     curr_dir = pathlib.Path(__file__)
     home_dir = curr_dir.parent.parent.parent
     params_file = home_dir.as_posix()+'/params.yaml'
-    #params = yaml.safe_load(open(params_file))["train_model"]
+    params = yaml.safe_load(open(params_file))["train_model"]
 
     input_file_train = sys.argv[1]
     input_file_test = sys.argv[2]
@@ -98,7 +100,9 @@ def main():
                                                                 X_train,
                                                                  X_test)
     model = model_build( X_train_padded, X_test_padded,
-                         y_train, y_test, vocabulary_size)
+                         y_train, y_test, vocabulary_size,
+                         params['GRU_layer'], params['dropout'], 
+                         params['snd_layer_unit'], params['trd_layer_unit'])
     
     save_model(model, arch_path, weight_path)
 

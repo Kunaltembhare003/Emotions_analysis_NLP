@@ -43,5 +43,13 @@ stages:
       size: 21688836
     - path: .\src\models\train_model.py
       hash: md5
-      md5: c532e98ea62ba09a74aefa07a8286701
-      size: 4571
+      md5: 2e46b3df9c446c8bfe6ab38658845018
+      size: 4866
+    params:
+      params.yaml:
+        train_model.GRU_layer: 128
+        train_model.batch_size: 1500
+        train_model.dropout: 0.5
+        train_model.epochs: 5
+        train_model.snd_layer_unit: 64
+        train_model.trd_layer_unit: 64
