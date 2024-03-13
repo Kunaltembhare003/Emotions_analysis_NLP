@@ -73,7 +73,7 @@ def save_model(model, architecture_path, weights_path):
     with open(architecture_path+'/architecture.json', 'w') as json_file:
         json_file.write(model_architecture)
     # Save model weights to HDF5
-    model.save_weights(weights_path+'/weight.h5')
+    model.save_weights(weights_path+'/model.weights.h5')
 
 
 def main():
