@@ -63,12 +63,13 @@ def model_build( X_train_padded, X_test_padded, y_train, y_test,
     model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
     # Model Train 
     history = model.fit(X_train_padded, y_train,
-                     epochs=epochs, batch_size=1500,
+                     epochs=epochs, batch_size=batch_size,
                        validation_data=(X_test_padded, y_test))
     return model
 
 # Save the model
 # Save the model
+'''
 def save_model(model, architecture_path, weights_path):
     # Save model architecture to JSON
     model_architecture = model.to_json()
@@ -76,6 +77,9 @@ def save_model(model, architecture_path, weights_path):
         json_file.write(model_architecture)
     # Save model weights to HDF5
     model.save_weights(weights_path+'/model.weights.h5')
+    '''
+def save_model(model, weights_path):
+    model.save(weights_path+'/model.h5')
 
 
 def main():
@@ -88,8 +92,8 @@ def main():
     input_file_test = sys.argv[2]
     data_path_train = home_dir.as_posix() + input_file_train
     data_path_test = home_dir.as_posix() + input_file_test
-    arch_path = home_dir.as_posix() + '/models'
-    pathlib.Path(arch_path).mkdir(parents=True, exist_ok=True)
+    #arch_path = home_dir.as_posix() + '/models'
+    #pathlib.Path(arch_path).mkdir(parents=True, exist_ok=True)
     weight_path = home_dir.as_posix() + '/models'
     pathlib.Path(weight_path).mkdir(parents=True, exist_ok=True)
     token_path = home_dir.as_posix() + '/data/interim'
@@ -102,9 +106,10 @@ def main():
     model = model_build( X_train_padded, X_test_padded,
                          y_train, y_test, vocabulary_size,
                          params['GRU_layer'], params['dropout'], 
-                         params['snd_layer_unit'], params['trd_layer_unit'])
+                         params['snd_layer_unit'], params['trd_layer_unit'],
+                         params['epochs'],params['batch_size'])
     
-    save_model(model, arch_path, weight_path)
+    save_model(model, weight_path)
 
 if __name__=="__main__":
     main()   
