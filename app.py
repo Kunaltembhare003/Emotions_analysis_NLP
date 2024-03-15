@@ -6,13 +6,12 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import re  # regular expression
-import os
 import pathlib
 from os.path import dirname, join, realpath
-import joblib
-import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from tensorflow.keras.models import model_from_json
+from fastapi.templating import Jinja2Templates
+from tensorflow.keras.models import load_model
 # Download nltk resources
 nltk.download('punkt')
 nltk.download('stopwords') 
@@ -24,15 +23,18 @@ app = FastAPI(
     description="A simple API that use NLP model to predict the sentiment of the sentences",
     version="0.1",
 )
-# Load model
-curr_path = pathlib.Path(__file__).parent.absolute()
-with open(os.path.join(curr_path, 'models', 'architecture.json'), 'r') as json_file:
-    loaded_model_architecture = json_file.read()
-loaded_model = model_from_json(loaded_model_architecture)
-loaded_model.load_weights(os.path.join(curr_path, 'models', 'model.weights.h5'))
+
+# Load the pre-trained sentiment analysis model
+model_path = pathlib.Path(__file__).parent / "models/model.keras"
+print(model_path)
+loaded_model = load_model(model_path)
+
 
 # Initialize lemmatizer
 lemmatizer = WordNetLemmatizer()
+
+# Initialize templates
+templates = Jinja2Templates(directory="templates")
 
 # Define function to perform text cleaning
 def text_cleaning(text):
@@ -56,8 +58,12 @@ def text_cleaning(text):
     return text
 
 # Create prediction endpoint
-@app.get("/predict-sentiment")
-def predict_sentiment(review: str):
+@app.get("/predict-sentiment/")
+async def predict_sentiment(request: Request):
+    return templates.TemplateResponse("predict_sentiment.html", {"request": request})
+
+@app.post("/predict-sentiment/result/")
+async def predict_sentiment_result(request: Request, review: str):
     # Clean the review
     cleaned_review = text_cleaning(review)
     # Perform prediction
@@ -69,8 +75,8 @@ def predict_sentiment(review: str):
     sentiments = {0: "Sadness", 1: "Joy", 2: "Love", 3: 'Anger', 4: 'Surprise'}
     # Format prediction result
     result = {"prediction": sentiments[output], "probability": output_probability}
-    return result
+    return templates.TemplateResponse("predict_result.html", {"request": request, "result": result})
 
-if __name__=="__main__":
+if __name__ == "__main__":
     import uvicorn 
-    uvicorn.run(app, host="0.0.0.0", port= 8088)
+    uvicorn.run(app, host="0.0.0.0", port=8088)

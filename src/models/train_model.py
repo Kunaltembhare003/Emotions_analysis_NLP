@@ -1,6 +1,8 @@
 import pandas as pd
 import pathlib
 import sys
+import os
+from datetime import datetime
 import joblib
 import yaml
 from tensorflow.keras.preprocessing.text import Tokenizer, tokenizer_from_json
@@ -11,6 +13,9 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import *
 from keras.layers import GRU, Dense, Embedding, Flatten, Dropout
 from keras.activations import softmax
+# ignore warnings   
+import warnings
+warnings.filterwarnings('ignore')
 
 def load_tokenizer(home_path):
     with open(home_path, 'r') as f:
@@ -36,7 +41,8 @@ def padding_data( tokenizer, X_train, X_test):
     X_train_padded = pad_sequences(X_train_sequences, maxlen=maxlen, padding='post')
     X_test_padded = pad_sequences(X_test_sequences, maxlen=maxlen, padding='post')
     # Embedding Vocabulary Size 
-    vocabulary_size = len(set(token for sequence in X_train_padded for token in sequence))
+    #vocabulary_size = len(set(token for sequence in X_train_padded for token in sequence))
+    vocabulary_size = len(tokenizer.word_index) + 1 
     return X_train_padded, X_test_padded, vocabulary_size
 
 # model building
@@ -46,7 +52,7 @@ def model_build( X_train_padded, X_test_padded, y_train, y_test,
     # Define the model
     model = Sequential()
     # Add an embedding layer with input_dim=1000, output_dim=100, input_length=75
-    model.add(Embedding(input_dim=vocabulary_size, output_dim=100))
+    model.add(Embedding(input_dim=vocabulary_size, output_dim=100,input_length=79))# input_shape=(79,)
     # Add a bidirectional GRU layer with 128 units
     model.add(Bidirectional(GRU(GRU_layer)))
     # Add batch normalization layer
