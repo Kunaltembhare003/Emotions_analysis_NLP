@@ -1,55 +1,55 @@
 schema: '2.0'
 stages:
   make_dataset:
-    cmd: python .\src\data\make_dataset.py .\data\raw\text.csv
+    cmd: python src/data/make_dataset.py /data/raw/text.csv
     deps:
-    - path: .\data\raw\text.csv
+    - path: ./data/raw/text.csv
       hash: md5
       md5: dce8a71d92b66b15b08cb6faac938889
       size: 44916111
-    - path: .\src\data\make_dataset.py
+    - path: ./src/data/make_dataset.py
       hash: md5
-      md5: c5ba6363b0c67e75f22a49b1ad2f2cff
-      size: 3172
+      md5: 51a0bd18c690b5d9c265c653c9ec3e3f
+      size: 3086
     params:
       params.yaml:
         make_data.seed: 42
         make_data.test_split: 0.2
   tokenization:
-    cmd: python .\src\features\build_features.py .\data\processed\train.csv .\data\processed\test.csv
+    cmd: python src/features/build_features.py /data/processed/train.csv /data/processed/test.csv
     deps:
-    - path: .\data\processed\test.csv
+    - path: ./data/processed/test.csv
       hash: md5
-      md5: b3e5ca318aca2f82c5d4fdbfe90885a4
-      size: 5407300
-    - path: .\data\processed\train.csv
+      md5: f6ae390c61d8e4679945cbc7f35ed939
+      size: 5323937
+    - path: ./data/processed/train.csv
       hash: md5
-      md5: acd3c1a39fd9a2496b0662106bdf91fa
-      size: 21688836
-    - path: .\src\features\build_features.py
+      md5: 24c477975c072ac477fbb0a8c9c03705
+      size: 21355388
+    - path: ./src/features/build_features.py
       hash: md5
-      md5: 38c2635519b39ffd1af2d4db52dd7294
-      size: 1463
+      md5: b85813f70ae7be17018bc887ca08643f
+      size: 1418
   train_model:
-    cmd: python .\src\models\train_model.py .\data\processed\train.csv .\data\processed\test.csv
+    cmd: python src/models/train_model.py /data/processed/train.csv /data/processed/test.csv
     deps:
-    - path: .\data\processed\test.csv
+    - path: ./data/processed/test.csv
       hash: md5
-      md5: b3e5ca318aca2f82c5d4fdbfe90885a4
-      size: 5407300
-    - path: .\data\processed\train.csv
+      md5: f6ae390c61d8e4679945cbc7f35ed939
+      size: 5323937
+    - path: ./data/processed/train.csv
       hash: md5
-      md5: acd3c1a39fd9a2496b0662106bdf91fa
-      size: 21688836
-    - path: .\src\models\train_model.py
+      md5: 24c477975c072ac477fbb0a8c9c03705
+      size: 21355388
+    - path: ./src/models/train_model.py
       hash: md5
-      md5: 612dbe94ddab3e9a156fb7f2bc6c49e6
-      size: 5228
+      md5: 3c918aa067e99b873120b1fe565ca772
+      size: 5101
     params:
       params.yaml:
         train_model.GRU_layer: 128
         train_model.batch_size: 1500
         train_model.dropout: 0.5
-        train_model.epochs: 1
+        train_model.epochs: 5
         train_model.snd_layer_unit: 64
         train_model.trd_layer_unit: 64

@@ -1,24 +1,24 @@
 stages:
   make_dataset:
-    cmd: python .\src\data\make_dataset.py .\data\raw\text.csv
+    cmd: python src/data/make_dataset.py /data/raw/text.csv
     deps:
-    - .\data\raw\text.csv
-    - .\src\data\make_dataset.py
+    - ./data/raw/text.csv
+    - ./src/data/make_dataset.py
     params:
     - make_data.test_split
     - make_data.seed
   tokenization:
-    cmd: python .\src\features\build_features.py .\data\processed\train.csv .\data\processed\test.csv 
+    cmd: python src/features/build_features.py /data/processed/train.csv /data/processed/test.csv 
     deps:
-    - .\src\features\build_features.py 
-    - .\data\processed\train.csv 
-    - .\data\processed\test.csv
+    - ./src/features/build_features.py
+    - ./data/processed/train.csv  
+    - ./data/processed/test.csv 
   train_model:
-    cmd: python .\src\models\train_model.py .\data\processed\train.csv .\data\processed\test.csv 
+    cmd: python src/models/train_model.py /data/processed/train.csv /data/processed/test.csv 
     deps:
-    - .\src\models\train_model.py
-    - .\data\processed\train.csv 
-    - .\data\processed\test.csv
+    - ./src/models/train_model.py
+    - ./data/processed/train.csv
+    - ./data/processed/test.csv
     params:
     - train_model.GRU_layer 
     - train_model.dropout 

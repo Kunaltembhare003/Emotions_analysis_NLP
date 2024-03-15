@@ -37,7 +37,7 @@ def load_tokenizer(home_path):
     tokenizer = tokenizer_from_json(tokenizer_json)
     return tokenizer
 # Load the pre-trained sentiment analysis model
-model_path = pathlib.Path(__file__).parent/"models/model.keras"
+model_path = pathlib.Path(__file__).parent/"models/model.h5"
 print(model_path)
 loaded_model = load_model(model_path)
     
