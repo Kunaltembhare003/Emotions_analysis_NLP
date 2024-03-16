@@ -1,4 +1,5 @@
 [core]
     remote = temp
+    hardlink_lock = true
 ['remote "temp"']
     url = ../TEMP
