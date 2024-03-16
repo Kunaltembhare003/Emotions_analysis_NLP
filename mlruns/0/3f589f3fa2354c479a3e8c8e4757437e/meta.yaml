@@ -1,0 +1,15 @@
+artifact_uri: file:///workspaces/Emotions_analysis_NLP/mlruns/0/3f589f3fa2354c479a3e8c8e4757437e/artifacts
+end_time: 1710612588904
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 3f589f3fa2354c479a3e8c8e4757437e
+run_name: GRU bidirectional model
+run_uuid: 3f589f3fa2354c479a3e8c8e4757437e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710612588893
+status: 3
+tags: []
+user_id: codespace

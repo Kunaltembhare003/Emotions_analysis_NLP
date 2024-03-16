@@ -1,0 +1,15 @@
+artifact_uri: file:///workspaces/Emotions_analysis_NLP/mlruns/0/ba85b4fb9ef843a79ef8c72bffd7131c/artifacts
+end_time: 1710608561691
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: ba85b4fb9ef843a79ef8c72bffd7131c
+run_name: intelligent-fawn-972
+run_uuid: ba85b4fb9ef843a79ef8c72bffd7131c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710608561626
+status: 4
+tags: []
+user_id: codespace

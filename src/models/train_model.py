@@ -8,6 +8,7 @@ import yaml
 from tensorflow.keras.preprocessing.text import Tokenizer, tokenizer_from_json
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import json
+import mlflow
 from keras.preprocessing import sequence
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import *
@@ -71,19 +72,23 @@ def model_build( X_train_padded, X_test_padded, y_train, y_test,
     history = model.fit(X_train_padded, y_train,
                      epochs=epochs, batch_size=batch_size,
                        validation_data=(X_test_padded, y_test))
+    run_ids = []
+    with mlflow.start_run(run_name='GRU bidirectional model') as run:
+        run_id = run.info.run_id
+        run_name = run.data.tags['mlflow.runName']
+        run_ids += [(run_name, run_id)]
+            
+        # configure params
+        # Log hyperparameter
+        mlflow.log_param("GRU_layer", GRU_layer)
+        mlflow.log_param("dropout", dropout)
+        mlflow.log_param("2nd_layer_unit", snd_layer_unit)
+        mlflow.log_param("3rd_layer_unit", trd_layer_unit)
+        mlflow.log_param("epochs", epochs)
+        mlflow.log_param("batch_size", batch_size)
     return model
 
 # Save the model
-# Save the model
-'''
-def save_model(model, architecture_path, weights_path):
-    # Save model architecture to JSON
-    model_architecture = model.to_json()
-    with open(architecture_path+'/architecture.json', 'w') as json_file:
-        json_file.write(model_architecture)
-    # Save model weights to HDF5
-    model.save_weights(weights_path+'/model.weights.h5')
-    '''
 def save_model(model, weights_path):
     model.save(weights_path+'/model.h5')
 

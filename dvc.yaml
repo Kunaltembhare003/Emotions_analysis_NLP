@@ -26,3 +26,8 @@ stages:
     - train_model.trd_layer_unit
     - train_model.epochs
     - train_model.batch_size
+  predict_model:
+    cmd: python src/models/predict_model.py /data/processed/test.csv 
+    deps:
+    - ./src/models/predict_model.py
+    - ./data/processed/test.csv

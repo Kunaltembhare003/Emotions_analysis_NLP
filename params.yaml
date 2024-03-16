@@ -6,5 +6,5 @@ train_model:
   dropout: 0.5 
   snd_layer_unit: 64
   trd_layer_unit: 64
-  epochs: 5
+  epochs: 1
   batch_size: 1500

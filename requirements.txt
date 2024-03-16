@@ -19,3 +19,5 @@ tensorflow==2.15.1
 fastapi
 uvicorn
 Jinja2
+python-multipart
+mlflow==2.11.1
