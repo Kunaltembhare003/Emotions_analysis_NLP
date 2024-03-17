@@ -1,14 +1,14 @@
+import pathlib
+import re  # regular expression
+import json
 # text preprocessing modules
 from string import punctuation 
 import numpy as np
 # text preprocessing modules
-from nltk.tokenize import word_tokenize
 import nltk
+from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-import re  # regular expression
-import pathlib
-import json
 from os.path import dirname, join, realpath
 from fastapi import FastAPI, Request
 from tensorflow.keras.models import model_from_json
