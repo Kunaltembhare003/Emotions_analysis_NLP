@@ -5,13 +5,14 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Copy the required files and directory into the container at /app
-COPY service.py /app/service.py
-COPY model.joblib /app/model.joblib
+COPY app.py /app/app.py
+COPY model.h5 /app/model.h5
+copy tokenizer.json /app/tokenizer.json
 COPY src/ /app/src/
-COPY requirements.txt /app/requirements.txt
+COPY dev-requirements.txt /app/dev-requirements.txt
 
 # Install any needed packages specified in requirements.txt
-RUN pip install -r requirements.txt
+RUN pip install -r dev-requirements.txt
 
 # Copy files from S3 inside docker
 # RUN mkdir /app/models
