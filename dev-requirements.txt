@@ -1,0 +1,7 @@
+keras==2.15
+nltk==3.8.1
+numpy==1.26.4
+tensorflow==2.15.1
+fastapi
+uvicorn
+Jinja2

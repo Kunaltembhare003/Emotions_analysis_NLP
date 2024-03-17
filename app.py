@@ -37,8 +37,7 @@ def load_tokenizer(home_path):
     tokenizer = tokenizer_from_json(tokenizer_json)
     return tokenizer
 # Load the pre-trained sentiment analysis model
-model_path = pathlib.Path(__file__).parent/"models/model.h5"
-print(model_path)
+model_path = pathlib.Path(__file__).parent/"model.h5"
 loaded_model = load_model(model_path)
     
 
@@ -71,7 +70,7 @@ def text_cleaning(text):
     tokens = text.split()
     # load tokenizer
     curr_path = pathlib.Path(__file__).parent
-    tokenizer =  load_tokenizer(curr_path.as_posix()+'/data/interim/tokenizer.json')
+    tokenizer =  load_tokenizer(curr_path.as_posix()+'/tokenizer.json')
     text= tokenizer.texts_to_sequences([tokens])
     # Perform padding on X_train and X_test sequences
     text = pad_sequences(text, maxlen=79, padding='post')
@@ -102,4 +101,4 @@ async def predict_sentiment_result(request: Request, review: str = Form(...)):
     return templates.TemplateResponse("predict-result.html", {"request": request, "result": result})
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8088)
+    uvicorn.run(app, host="127.0.0.1", port=8080)
