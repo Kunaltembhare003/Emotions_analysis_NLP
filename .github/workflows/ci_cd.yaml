@@ -10,10 +10,10 @@ permissions:
 jobs:
   integration:
     name: Continuous Integration
-    runs-on: ubantu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/sheckout@v3
+        uses: actions/checkout@v3
 
       - name: Lint code
         run: echo "Running unit tests"
@@ -24,7 +24,7 @@ jobs:
   build-and-push-ecr-image:
     name: Push to ECR
     needs: integration
-    runs-on: ubantu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -61,7 +61,7 @@ jobs:
     runs-on: self-hosted
     needs: build-and-push-ecr-image
     steps:
-      - name: COnfigure AWS credentials
+      - name: Configure AWS credentials
         uses: aws-aactions/configure-aws-crendentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
