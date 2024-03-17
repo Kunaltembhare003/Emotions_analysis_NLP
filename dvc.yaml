@@ -31,3 +31,8 @@ stages:
     deps:
     - ./src/models/predict_model.py
     - ./data/processed/test.csv
+  push_model:
+    cmd: python src/models/push_model.py
+    deps:
+    - ./models/
+    - ./src/models/train_model.py

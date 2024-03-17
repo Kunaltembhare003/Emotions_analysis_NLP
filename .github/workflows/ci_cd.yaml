@@ -17,7 +17,7 @@ jobs:
 
       - name: Lint code
         run: echo "Running unit tests"
-        
+
       - name: Run unit tests
         run: echo "Running unit tests"
 
