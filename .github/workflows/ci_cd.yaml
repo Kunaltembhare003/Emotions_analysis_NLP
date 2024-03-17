@@ -70,6 +70,8 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
+        with:
+          password-stdin: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Pull latest images
         env: 
