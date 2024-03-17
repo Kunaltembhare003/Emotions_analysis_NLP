@@ -17,6 +17,9 @@ jobs:
 
       - name: Lint code
         run: echo "Running unit tests"
+        
+      - name: Run unit tests
+        run: echo "Running unit tests"
 
   build-and-push-ecr-image:
     name: Push to ECR
