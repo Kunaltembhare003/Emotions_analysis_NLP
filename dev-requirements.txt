@@ -5,4 +5,4 @@ tensorflow==2.15.1
 fastapi
 uvicorn
 Jinja2
-python-multipartment
+python-multipart
