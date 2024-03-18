@@ -70,10 +70,11 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Login to Amazon ECR
-        run: |
-          aws ecr get-login-password --region ap-south-1 | docker login --username kunal --password-stdin 590183827869.dkr.ecr.ap-south-1.amazonaws.com/models/sentiment-analysis  
-        #id: login-ecr
-        # uses: aws-actions/amazon-ecr-login@v2
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2  
+        #run: |
+        #  aws ecr get-login-password --region ap-south-1 | docker login --username kunal --password-stdin 590183827869.dkr.ecr.ap-south-1.amazonaws.com/models/sentiment-analysis  
+        
       
       - name: Pull latest images
         env:
